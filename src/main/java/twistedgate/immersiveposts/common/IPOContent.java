@@ -10,13 +10,21 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import blusunrize.immersiveengineering.ImmersiveEngineering;
 import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTab.ItemDisplayParameters;
+import net.minecraft.world.item.CreativeModeTab.Output;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraftforge.registries.RegistryObject;
-import twistedgate.immersiveposts.ImmersivePosts;
+import twistedgate.immersiveposts.IPOMod;
 import twistedgate.immersiveposts.api.posts.IPostMaterial;
 import twistedgate.immersiveposts.common.blocks.HorizontalTrussBlock;
 import twistedgate.immersiveposts.common.blocks.MetalFenceBlock;
@@ -55,13 +63,21 @@ public class IPOContent{
 		materialName = "fence_" + materialName;
 		
 		RegistryObject<FenceBlock> block = IPORegistries.BLOCK_REGISTER.register(materialName, MetalFenceBlock::new);
-		IPORegistries.ITEM_REGISTER.register(materialName, () -> new BlockItem(block.get(), new Item.Properties().tab(ImmersivePosts.creativeTab)));
+		IPORegistries.ITEM_REGISTER.register(materialName, () -> new BlockItem(block.get(), new Item.Properties()));
 		return block;
 	}
 	
 	protected static final <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> constructor){
 		return IPORegistries.ITEM_REGISTER.register(name, constructor);
 	}
+	
+	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = IPORegistries.CREATIVE_TABS.register(IPOMod.ID,
+			() -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + IPOMod.ID)).withTabsBefore(ResourceLocation.fromNamespaceAndPath(ImmersiveEngineering.MODID, "main"))
+					.icon(() -> new ItemStack(IPOContent.Blocks.POST_BASE.get()))
+					.displayItems((parameters, output) -> {
+						IPOContent.Blocks.addTabItems(parameters, output);
+						IPOContent.Items.addTabItems(parameters, output);
+					}).build());
 	
 	public static class Blocks{
 		public static final RegistryObject<PostBaseBlock> POST_BASE;
@@ -163,6 +179,11 @@ public class IPOContent{
 			private static void forceClassLoad(){
 			}
 		}
+
+		public static void addTabItems(ItemDisplayParameters parameters, Output output) {
+
+			IPORegistries.BLOCK_REGISTER.getEntries().forEach(blockRegistryObject -> {try { output.accept(new ItemStack(blockRegistryObject.get()));} catch (Exception e) {}});
+		}
 	}
 	
 	public static class Items{
@@ -187,6 +208,10 @@ public class IPOContent{
 		}
 		
 		private static void forceClassLoad(){
+		}
+
+		public static void addTabItems(ItemDisplayParameters parameters, Output output) {
+			IPORegistries.ITEM_REGISTER.getEntries().forEach(itemRegistryObject -> output.accept(new ItemStack(itemRegistryObject.get())));
 		}
 	}
 	

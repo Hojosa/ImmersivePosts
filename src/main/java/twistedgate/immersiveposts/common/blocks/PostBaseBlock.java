@@ -33,8 +33,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -55,9 +54,10 @@ import twistedgate.immersiveposts.enums.EnumPostType;
  */
 public class PostBaseBlock extends IPOBlockBase implements SimpleWaterloggedBlock, EntityBlock{
 	private static BlockBehaviour.Properties prop(){
-		Material BaseMaterial = new Material(MaterialColor.STONE, false, true, true, true, false, false, PushReaction.BLOCK);
 		
-		BlockBehaviour.Properties prop = BlockBehaviour.Properties.of(BaseMaterial)
+		BlockBehaviour.Properties prop = BlockBehaviour.Properties.of()
+				.mapColor(MapColor.STONE)
+				.sound(SoundType.STONE)
 				.sound(SoundType.STONE)
 				.requiresCorrectToolForDrops()
 				.strength(5.0F, 3.0F)
@@ -167,7 +167,7 @@ public class PostBaseBlock extends IPOBlockBase implements SimpleWaterloggedBloc
 					
 					if(b instanceof PostBlock){
 						ItemStack tmp = ((PostBlock) b).getPostMaterial().getItemStack();
-						if(!held.sameItem(tmp)){
+						if(!ItemStack.isSameItem(held, tmp)){
 							playerIn.displayClientMessage(Component.translatable("immersiveposts.expectedlocal", tmp.getHoverName()), true);
 							return InteractionResult.SUCCESS;
 						}
@@ -223,7 +223,7 @@ public class PostBaseBlock extends IPOBlockBase implements SimpleWaterloggedBloc
 	
 	public static class ItemPostBase extends BlockItem{
 		public ItemPostBase(Block block){
-			super(block, new Item.Properties().tab(ImmersivePosts.creativeTab));
+			super(block, new Item.Properties());
 		}
 		
 		@Override

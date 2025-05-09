@@ -70,13 +70,13 @@ public interface IPostMaterial{
 	/** Gets the material of the given source-block itemstack */
 	public static IPostMaterial getPostMaterial(@Nonnull ItemStack stack){
 		for(EnumPostMaterial mat:EnumPostMaterial.values()){
-			if(stack.sameItem(mat.getItemStack())){
+			if(ItemStack.isSameItem(stack, mat.getItemStack())){
 				return mat;
 			}
 		}
 		
 		for(IPostMaterial mat:PostMaterialRegistry.MAP.keySet()){
-			if(stack.sameItem(mat.getItemStack())){
+			if(ItemStack.isSameItem(stack, mat.getItemStack())){
 				return mat;
 			}
 		}
@@ -89,13 +89,13 @@ public interface IPostMaterial{
 			return false;
 		
 		for(EnumPostMaterial mat:EnumPostMaterial.values()){
-			if(stack.sameItem(mat.getItemStack())){
+			if(ItemStack.isSameItem(stack, mat.getItemStack())){
 				return true;
 			}
 		}
 		
 		for(IPostMaterial mat:PostMaterialRegistry.MAP.keySet()){
-			if(stack.sameItem(mat.getItemStack())){
+			if(ItemStack.isSameItem(stack, mat.getItemStack())){
 				return true;
 			}
 		}

@@ -39,6 +39,8 @@ eclipse
 out
 run
 bin
+.cache
+/src/generated/resources/.cache/cache
 
 # OS specific temporary files
 .DS_Store

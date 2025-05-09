@@ -3,10 +3,11 @@ package twistedgate.immersiveposts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,6 +18,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import twistedgate.immersiveposts.client.ClientEventHandler;
 import twistedgate.immersiveposts.client.ClientProxy;
 import twistedgate.immersiveposts.common.CommonProxy;
@@ -31,13 +34,6 @@ import twistedgate.immersiveposts.common.IPORegistries;
 @Mod(IPOMod.ID)
 public class ImmersivePosts{
 	
-	public static final CreativeModeTab creativeTab = new CreativeModeTab(IPOMod.ID){
-		@Override
-		public ItemStack makeIcon(){
-			Block block = IPOContent.Blocks.POST_BASE.get();
-			return new ItemStack(block == null ? Items.BARRIER : block);
-		}
-	};
 	public static final Logger log = LogManager.getLogger(IPOMod.ID);
 	
 	public static CommonProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
@@ -50,6 +46,7 @@ public class ImmersivePosts{
 		bus.addListener(this::loadComplete);
 		
 		IPORegistries.addRegistersToEventBus(bus);
+		
 		
 		ExternalModContent.forceClassLoad();
 		IPOContent.modConstruction();

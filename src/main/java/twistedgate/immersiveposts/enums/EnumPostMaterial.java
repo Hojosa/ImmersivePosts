@@ -10,8 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import twistedgate.immersiveposts.IPOMod;
 import twistedgate.immersiveposts.api.posts.IPostMaterial;
@@ -117,22 +116,23 @@ public enum EnumPostMaterial implements IPostMaterial{
 	
 	public static class PostBlockProperties{
 		/** Sources are not being read properly for some reason, so this is just so i know what the hell is what */
-		private static Material material(MaterialColor color, boolean isLiquid, boolean isSolid, boolean blocksMovement, boolean isOpaque, boolean flammable, boolean replaceable, PushReaction pushReaction){
-			return new Material(color, isLiquid, isSolid, blocksMovement, isOpaque, flammable, replaceable, pushReaction);
-		}
+//		private static Material material(MaterialColor color, boolean isLiquid, boolean isSolid, boolean blocksMovement, boolean isOpaque, boolean flammable, boolean replaceable, PushReaction pushReaction){
+//			return new Material(color, isLiquid, isSolid, blocksMovement, isOpaque, flammable, replaceable, pushReaction);
+//		}
+//		
+//		private static final Material WOOD_LIKE = material(MaterialColor.WOOD, false, true, true, true, false, false, PushReaction.BLOCK);
+//		private static final Material STONE_LIKE = material(MaterialColor.STONE, false, true, true, true, false, false, PushReaction.BLOCK);
+//		private static final Material METAL_LIKE = material(MaterialColor.METAL, false, true, true, true, false, false, PushReaction.BLOCK);
 		
-		private static final Material WOOD_LIKE = material(MaterialColor.WOOD, false, true, true, true, false, false, PushReaction.BLOCK);
-		private static final Material STONE_LIKE = material(MaterialColor.STONE, false, true, true, true, false, false, PushReaction.BLOCK);
-		private static final Material METAL_LIKE = material(MaterialColor.METAL, false, true, true, true, false, false, PushReaction.BLOCK);
-		
-		public static final Properties WOOD = Properties.of(WOOD_LIKE)
-				.sound(SoundType.WOOD)
+		public static final Properties WOOD = Properties.copy(Blocks.OAK_PLANKS)
 				//.harvestTool(ToolType.AXE)
 				.strength(2.0F, 5.0F)
 				.noOcclusion()
 				.isViewBlocking((s, r, p) -> false);
 		
-		public static final Properties STONE = Properties.of(STONE_LIKE)
+		public static final Properties STONE = Properties.copy(Blocks.COBBLESTONE)
+				.mapColor(MapColor.STONE)
+				.pushReaction(PushReaction.BLOCK)
 				.sound(SoundType.STONE)
 				.requiresCorrectToolForDrops()
 				//.harvestTool(ToolType.PICKAXE)
@@ -143,7 +143,7 @@ public enum EnumPostMaterial implements IPostMaterial{
 		public static final Properties METAL = metal();
 		
 		private static Properties metal(){
-			return Properties.of(METAL_LIKE)
+			return Properties.copy(Blocks.IRON_BLOCK)
 					.sound(SoundType.METAL)
 					.requiresCorrectToolForDrops()
 					//.harvestTool(ToolType.PICKAXE)

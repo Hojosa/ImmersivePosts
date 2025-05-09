@@ -1,15 +1,19 @@
 package twistedgate.immersiveposts.common.data;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.Nullable;
+
 import blusunrize.immersiveengineering.common.register.IEBlocks;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceBlock;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import twistedgate.immersiveposts.IPOMod;
@@ -18,12 +22,12 @@ import twistedgate.immersiveposts.common.IPOTags;
 import twistedgate.immersiveposts.enums.EnumPostMaterial;
 
 public class IPOBlockTags extends BlockTagsProvider{
-	public IPOBlockTags(DataGenerator dataGen, ExistingFileHelper exFileHelper) {
-		super(dataGen, IPOMod.ID, exFileHelper);
+	public IPOBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, IPOMod.ID, existingFileHelper);
 	}
 	
 	@Override
-	protected void addTags(){
+	protected void addTags(HolderLookup.Provider provider){
 		miningLevels();
 		
 		tag(IPOTags.IGNORED_BY_POSTARM)

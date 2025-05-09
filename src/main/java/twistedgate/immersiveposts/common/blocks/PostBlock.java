@@ -2,7 +2,7 @@ package twistedgate.immersiveposts.common.blocks;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 
 import blusunrize.immersiveengineering.api.IPostBlock;
 import blusunrize.immersiveengineering.common.util.Utils;
@@ -200,7 +200,8 @@ public class PostBlock extends GenericPostBlock implements IPostBlock, SimpleWat
 		if(!worldIn.isClientSide){
 			ItemStack held = playerIn.getMainHandItem();
 			if(IPostMaterial.isValidItem(held)){
-				if(!held.sameItem(getPostMaterial().getItemStack())){
+					
+				if(!ItemStack.isSameItem(held, getPostMaterial().getItemStack())){
 					playerIn.displayClientMessage(Component.translatable("immersiveposts.expectedlocal", getPostMaterial().getItemStack().getHoverName()), true);
 					return InteractionResult.SUCCESS;
 				}
