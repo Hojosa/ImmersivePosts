@@ -2,7 +2,7 @@ import net.minecraftforge.gradle.common.tasks.SignJar
 
 buildscript {
 	repositories {
-		maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url = 'https://maven.minecraftforge.net/' }
 		jcenter()
 		mavenCentral()
 		maven { url 'https://maven.parchmentmc.org' }
@@ -108,6 +108,9 @@ dependencies {
 	implementation fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${version_ie}")
 	//compile fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${version_ie}:api")
 	datagenImplementation fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${version_ie}:datagen")
+	compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}-common-api:${version_jei}")
+  	compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge-api:${version_jei}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge:${version_jei}")
 }
 
 jar {
